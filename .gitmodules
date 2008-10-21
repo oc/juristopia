@@ -1,0 +1,21 @@
+[submodule "vendor/sinatra"]
+	path = vendor/sinatra
+	url = git://github.com/oc/sinatra.git
+[submodule "vendor/webrat"]
+	path = vendor/webrat
+	url = git://github.com/oc/webrat.git
+[submodule "vendor/couchrest"]
+	path = vendor/couchrest
+	url = git://github.com/oc/couchrest.git
+[submodule "vendor/rest-client"]
+	path = vendor/rest-client
+	url = git://github.com/oc/rest-client.git
+[submodule "vendor/extlib"]
+	path = vendor/extlib
+	url = git://github.com/sam/extlib.git
+[submodule "vendor/haml"]
+	path = vendor/haml
+	url = git://github.com/nex3/haml.git
+[submodule "vendor/neo4j"]
+	path = vendor/neo4j
+	url = git://github.com/oc/neo4j.git
