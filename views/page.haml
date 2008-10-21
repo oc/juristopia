@@ -1,0 +1,14 @@
+- title= @page.name
+%div#sidebar
+  %h2 
+    = "Associations" unless @page.associations.empty?
+  ~ @page.associations.map { |a| a.to_html }
+  %h2
+    = "Occurrences" unless @page.occurrences.empty?
+  ~ @page.occurrences.map { |o| o.to_html }
+%div#content
+  %h1= title
+  ~ @page.content.wiki_link.to_html
+  %p.small
+    %a{:href => "/#{@page.name}/edit"} Edit page
+  %hr.clear

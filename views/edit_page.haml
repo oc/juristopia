@@ -1,0 +1,11 @@
+- title= "Edit page #{@page.name}"
+%div#content_full
+  %h1= "Edit page #{@page.name}"
+  %form{ :action => "/#{@page.name}", :method => 'post' }
+    %p
+      %select{ :name => 'type' }= @page.type
+      %textarea{ :name => 'content' }= @page.content
+    %p
+      %input{ :type => 'submit', :value => 'Save' }
+      or
+      %a{ :href => "/#{@page.name}" } Cancel

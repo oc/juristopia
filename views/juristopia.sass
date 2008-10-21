@@ -1,0 +1,110 @@
+!dark          = #2D2D29
+!deep          = #215A6D
+!middle        = #3CA2A2
+!light         = #92C7A3
+!bright        = #DFECE6
+!white         = #FFF
+
+#page
+  #head 
+    :float left
+    :width 100%
+    :height 80px
+    :background = !dark
+    :text-align left
+    .logo
+      :margin 20px 0 0 20px
+  #navigation
+    :float left
+    :width 100%
+    :background= !deep
+    .tabs
+      ul
+        :margin 0 0 0 20px
+        :padding 5px 0
+        :list-style-type none
+        li
+          :background= !middle
+          :float left
+          :padding 0
+          :margin-right 4px
+          :display block
+      a
+        :color= !bright
+        :float left
+        :padding 7px 20px
+        :text-decoration none
+      a:hover
+        :color = !bright
+        :background = !dark
+      a.selected, a.selected:hover
+        :background = !white
+        :color = !bright
+        :font-weight bold
+      form
+        :color = !bright
+        :float left
+        :margin 0
+        :padding  4px 10px
+        :text-decoration none
+    
+  #wrapper     
+    :padding 20px 0
+    :clear both
+  #sidebar
+    :float right
+    :width 33%
+    :padding 0 2% 0 2%
+  #content
+    :width 59%
+    :padding 0 2%
+    :border-right = 1px dotted !deep
+    :background = !white
+    h1,h2,h3,h4
+      :color = !deep
+  #content_full
+    :width 96%
+    :padding 0 2%
+    :background = !white
+    h1,h2,h3,h4
+      :color = !deep      
+  #tail
+    :text-align left
+    :clear both
+    :padding 20px      
+    :background = !bright
+    :color = !deep
+    :font-size 9px
+
+div.container
+  :width        96%
+  :padding      20px
+  :clear        both
+
+hr.clear 
+  :visibility    hidden
+  :clear         both
+    
+body
+  :background= !white
+  :margin      0
+  :padding     0
+
+body, td, th
+  :font normal 13px "lucida grande", arial, helvetica, sans-serif
+
+table 
+  :border-collapse collapse
+  :width 100%
+
+h1,h2,h3,h4,h5,h6 
+  :font-family Georgia, Garamond, Times, serif
+  :margin-bottom 15px
+
+code, pre
+  :font normal 80% "bitstream vera sans mono", monaco, "courier new", courier, monospace
+
+textarea
+  :width  80%
+  :height 400px
+

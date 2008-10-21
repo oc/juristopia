@@ -1,0 +1,27 @@
+!!! strict
+%html
+  %head
+    -title= title
+    %link{ :href => '/juristopia.css', :media => 'screen', :rel => 'stylesheet', :type=>'text/css' }
+    %script{ :src => '/juristopia.js', :type => 'application/javascript' }
+  %body
+    %div#page
+      %div#head
+        %img.logo{ :src => '/assets/jt.png' }
+      %div{:id => 'navigation'}
+        .tabs 
+          %ul
+            %li
+              %a{ :href=>"/Home" } Home
+            %li  
+              %a{ :href=>"/About" } About
+            %li
+              %a{ :href => '/Help' } Help
+            %li  
+              %a#nav_toggle{ :href=>"#nav", :onclick => %{ $('#nav') } } Navigation
+            %li
+              %a#search{:href=>'#', :onclick=> %{ $('#search').replaceWith("<form action='/_q' method='post'><input type='text' name='query'/>&nbsp;<input type='submit' value='Query'/></form>") } } Query
+      %div#wrapper= yield
+        
+      %div#tail
+        %p.small Copyright (c) Ole Christian Rynning 2007-2008

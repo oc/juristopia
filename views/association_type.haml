@@ -1,0 +1,7 @@
+- title= @page.name
+%div#content_full
+  %h1= Associations using: @page.name
+  ~ @page.associations_by_type.map { |a| a.to_html }
+  %p.small
+    %a{:href => "/#{@page.name}/edit"} Edit page
+  %hr.clear

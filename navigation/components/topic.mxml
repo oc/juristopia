@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="120" height="20">
+	<mx:Image x="1" y="1" source="components/images/topic.gif"/>
+</mx:Canvas>

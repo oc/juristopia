@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="800" height="250" xmlns:oc="components.*">
+	<!-- The HTTPService should be generated from ['current-page'.xtm] -->
+	<mx:HTTPService id="jtNav" url="http://oc.pub.no/nav.xtm" useProxy="false" xmlDecode="topicMapDecoder"/> 
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.LinkButton;
+			import mx.core.Container;
+			import components.topic;
+			
+			private function topicMapDecoder(nav:XMLDocument):Object {
+				var tm:XML = XML(nav);
+				var obj:Object = new Object();
+				var i:Number = 1;
+				
+				// Pre-defined positions for topics
+				//var topicPositions:Array = [ [10,90], [50, 90], [100,20], [10, 20], [230, 80] ];
+				//XXX: reverse order (.pop())
+				var topicPositions:Array = [ [90,10], [90, 50], [20,100], [80, 230], [50, 10] ];
+				var topics:Array = [];
+				var assocs:Array = [];
+				var occurs:Array = [];
+				
+				/* 
+				This is really conceptual and should be replaced with a proper XML parsing library...
+				There is no error checking or fancy collision checking or even clever positioning of
+				topics or occurrences on the canvas.
+				
+				XXX1: create proper sets of node positions
+				XXX2: create classes for TAO, parse into objects, draw objects. I.e.
+				      pop a node position, create an object Topic with baseName and
+				      URI (pagename), add occurrences as children of this, and place
+				      children in respect to some PI-based algorithm, or even fixed 
+				      positions/offsets around the topic. Draw lines.
+				XXX3: create proper associations. They should draw lines between 
+				      members, and have a label on each side specifying the relshp.
+				*/ 
+    			for each (var t:XML in tm.children()) {
+    				if (t.name() == "topic") {
+    					var baseName:String = String(t.baseName); 	  
+ 	   					var topicPosition:Array = topicPositions.pop();
+ 	   					
+ 	   					//var x:int = Math.round(Math.random() * 420);
+    					//var y:int = Math.round(Math.random() * 160);
+    					var x:int = topicPosition.pop();
+    					var y:int = topicPosition.pop();
+    					
+    					// Draw the topic
+    					trace("drew topic:")
+    					trace(baseName); trace(x); trace(y);
+    					topicCanvas.addChild(createTopic(baseName, x, y) );
+ 	   					/* *******************************************************
+ 	   					- Find (and draw) all occurrences XML format:
+ 	   					<occurrence>
+ 	   					  <instanceOf><topicRef xlink:href="#uri"/></instanceOf>
+ 	   					  <resourceRef xlink:href="http://www.example.com/" />
+ 	   					</occurrence>
+ 	   					******************************************************* */
+ 	   					/*
+ 	   					for each (var o:XML in t.occurrence) {
+ 	   						var instanceOf:String = String(o.instanceOf.topicRef.@href)
+    						var resourceRef:String = String(o.resourceRef.@href);
+    					    switch(instanceOf) {
+    					    	case "#uri": trace("uri occurrence"); break;
+    					    	case "#document": trace("document occurrence"); break;
+    					    	case "#image": trace("image occurrence"); break;
+    					    }
+    					    
+    					    //xo = x + Math.round(Math.random() * 20);  
+    					    //topicCanvas.addChild(createOccurrence(resourceRef, x, y)    			
+    						//occurences.push([baseName, instanceOf, resourceRef]);
+    					} */    					
+    				}
+    				/*
+    				if (t.name() == "association") {
+    					var instanceOf:String = String(t.instanceOf.topicRef.@href);    					
+    					var members:Array = [];
+    					
+    					// a = createAssociation(instanceOf);
+    					
+    					for each (var m:XML in t.member) {
+    					    var roleSpec:String = String(m.roleSpec.topicRef.@href);
+    						var topicRef:String = String(m.topicRef.@href);
+    						// Strip off prefix '#'
+    						topicRef = topicRef.slice(1, topicRef.length); 
+    						
+    						// find topicRef node pos x,y    					
+    						members.push(roleSpec, x, y);
+    					}
+    					
+    					//draw assoc:
+    					//
+    					//r = members.pop();
+    					//l = members.pop();
+    					//roleR = r.pop(); xR= r.pop(); yR = r.pop();
+    					//roleL = l.pop(); xL= l.pop(); yL = l.pop();
+    					//a.drawLine(xR,yR,xL,yL); 
+    					//a.addMember(
+    				}
+    				*/
+    			}
+    			
+    			
+    			/*
+    			var baseName:String = topics.pop();
+    			var nodeXY:Array = nodePos.pop();
+    			
+    			topicCanvas.addChild(createTopic(baseName, Math.round(Math.random() * 500), Math.round(Math.random() * 190) ) );
+    			
+    			while (topics.length > 0) {
+    				var tx:String = topics.pop();
+    				// position of tx:
+    				
+    			}
+    			
+				// Insert nifty graph placement algorithm here!
+				*/
+    			return obj;
+			}
+			
+			private function createTopic(title:String, x:Number, y:Number):topic {
+				var e:topic = new topic();
+				var l:LinkButton = new LinkButton();
+				e.id = title;
+				e.x = x;
+				e.y = y;
+				l.id = title + 'Link';
+				l.label = title;
+				l.addEventListener(MouseEvent.CLICK, function showTT():void {
+				  showToolTip(title);
+			    });
+				l.x = 25;
+				l.y = 0;
+				e.addChild(l);
+				return e;
+			}
+			
+			public function showToolTip(arg:String):void {
+				trace(arg);
+				this.currentState = 'Tooltip';
+				toolTipTitle.text = arg; //XXX
+			}
+		]]>
+	</mx:Script>
+	<mx:states>
+		<mx:State name="Tooltip">
+			<mx:AddChild relativeTo="{navigationPanel}" position="lastChild">
+				<mx:Canvas x="580" y="0" width="200" height="210" backgroundColor="#EEE7CE" color="#000000" id="tooltipCanvas">
+					<mx:Label text="Privacy Act" id="toolTipTitle" fontWeight="bold" fontSize="14" left="10" top="10"/>
+					<!-- Maximum viewable text size: 314 characters... -->
+					<mx:Text text="Extract of the first 300 characters of the Zoomed in Privacy Act page goes here... Suspendisse eu purus. Nullam sollicitudin. Nullam cursus iaculis neque. Proin nonummy..." width="180" id="text" height="140" horizontalCenter="0" verticalCenter="3"/>
+					<mx:Button label="Open" right="10" bottom="10"/>
+				</mx:Canvas>
+			</mx:AddChild>
+			<mx:SetEventHandler target="{linkbutton1}" name="click" handler="currentState=''"/>
+		</mx:State>
+	</mx:states>
+	<mx:transitions>
+		<mx:Transition id="drawTooltip" fromState="*" toState="Tooltip">
+			<mx:Parallel target="{tooltipCanvas}">
+				<mx:WipeLeft duration="100"/>
+				<mx:Dissolve alphaFrom="0.0" alphaTo="1.0" duration="500"/>
+			</mx:Parallel>
+		</mx:Transition>
+	</mx:transitions>
+		 
+	<mx:Panel x="0" y="0" title="Navigation" width="800" height="250" id="navigationPanel" borderColor="#5086B6" layout="absolute">
+		<mx:Canvas width="580" height="210" id="topicCanvas" x="0" y="0">
+			<mx:LinkButton x="10" y="178" label="Tooltip" click="currentState='Tooltip'" id="linkbutton1"/>
+			<mx:LinkButton x="76" y="178" label="Manipulate topic" click="jtNav.send()"/>
+		</mx:Canvas>
+	</mx:Panel>
+</mx:Application>
