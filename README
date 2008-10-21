@@ -1,0 +1,14 @@
+Installation
+
+Simple. Requires CouchDB. Future release supports Neo4J aswell.
+
+#0 Fetch submodules
+ - git submodule init
+ - git submodule update
+
+#1 Install couchdb
+ - Start it i.e.: `sudo -H -u nobody couchdb`
+
+#2 Run it
+ - ruby juristopia.rb
+
